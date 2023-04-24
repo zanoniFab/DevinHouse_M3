@@ -1,4 +1,4 @@
-package com.example.exerciciosmodulo3s01;
+package com.example.exerciciosmodulo3s01.controller;
 
 import com.example.exerciciosmodulo3s01.dto.VeiculoRequest;
 import com.example.exerciciosmodulo3s01.dto.VeiculoResponse;
