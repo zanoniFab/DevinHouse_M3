@@ -27,16 +27,17 @@ public class VeiculosController {
 
     @PostMapping
     public ResponseEntity cadastrar (@RequestBody @Valid VeiculoRequest request) {
-        log.debug("Cadastro de veiculo: {}",request);
+        log.debug("Solicitação de cadastro de veiculo: {}",request);
         Veiculo veiculo = modelMapper.map(request, Veiculo.class);
         veiculo = service.cadastrar(veiculo);
         VeiculoResponse resp = modelMapper.map(veiculo,VeiculoResponse.class);
+        log.info("O cadastro do veículo de placa {} foi concluído com sucesso", resp.getPlaca());
         return ResponseEntity.created(URI.create(resp.getPlaca().toString())).body(resp);
     }
 
     @GetMapping
     public ResponseEntity<List<VeiculoResponse>> consultar () {
-        log.debug("Realizada consulta geral de veículos");
+        log.debug("Solicitação de consulta geral de veículos");
         List<Veiculo> veiculos = service.consultar();
         List<VeiculoResponse> resp = veiculos.stream().map(p->modelMapper.map(p,VeiculoResponse.class)).toList();
         return ResponseEntity.ok(resp);
@@ -44,7 +45,7 @@ public class VeiculosController {
 
     @GetMapping("{placa}")
     public ResponseEntity<VeiculoResponse> consultarPlaca (@PathVariable String placa) {
-        log.debug("Realizada consulta de veículo com placa: {}", placa);
+        log.debug("Solicitação de consulta de veículo com placa: {}", placa);
         Veiculo veiculo = service.obterPlaca(placa);
         VeiculoResponse resp = modelMapper.map(veiculo,VeiculoResponse.class);
         return ResponseEntity.ok(resp);
@@ -52,7 +53,7 @@ public class VeiculosController {
 
     @PutMapping("{placa}/multas")
     public ResponseEntity<VeiculoResponse> adicionarMulta(@PathVariable String placa) {
-        log.debug("Aplicada multa ao veículo: {}.",placa);
+        log.debug("Solicitação de adição de multa ao veículo: {}.",placa);
         Veiculo veiculo = service.adicionarMulta(placa);
         VeiculoResponse resp = modelMapper.map(veiculo,VeiculoResponse.class);
         return ResponseEntity.ok(resp);
@@ -61,7 +62,7 @@ public class VeiculosController {
 
     @DeleteMapping("{placa}")
     public ResponseEntity excluir(@PathVariable String placa) {
-        log.debug("Excluido veículo placa: {}",placa);
+        log.debug("Solicitação de exclusão de veículo placa: {}",placa);
         service.excluir(placa);
         return ResponseEntity.noContent().build();
     }
