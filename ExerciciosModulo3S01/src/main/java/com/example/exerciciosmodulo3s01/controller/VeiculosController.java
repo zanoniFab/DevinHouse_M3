@@ -38,6 +38,7 @@ public class VeiculosController {
     public ResponseEntity<List<VeiculoResponse>> consultar () {
         log.debug("Realizada consulta geral de veículos");
         List<Veiculo> veiculos = service.consultar();
+        log.info("Registros encontrados: {}.",veiculos.size());
         List<VeiculoResponse> resp = veiculos.stream().map(p->modelMapper.map(p,VeiculoResponse.class)).toList();
         return ResponseEntity.ok(resp);
     }
